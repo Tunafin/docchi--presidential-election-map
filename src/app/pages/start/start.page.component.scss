@@ -1,3 +1,86 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 96px 0;
+
+  height: 100vh;
+  min-width: 375px;
+  min-height: 812px;
+
+  .title-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title-text {
+    font-family: Mantou Sans, sans-serif;
+    font-size: 59px;
+    line-height: 85px;
+    font-weight: 400;
+    letter-spacing: 0em;
+
+    color: #334155;
+
+    margin: 0;
+
+    &.mobile {
+      font-size: 32px;
+      line-height: 46px;
+    }
+  }
+}
+
+.hint-label {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+
+  color: #D4009B;
+}
+
+.chip-text {
   display: block;
+  width: 170px;
+  height: 48px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.year-chip-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+
+  &.mobile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .year-chip {
+    width: 170px;
+    border-radius: 500px;
+    padding: 12px 0;
+
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0em;
+
+    text-align: center;
+    background-color: #E9ECEF;
+    transition: background-color 0.2s ease;
+
+    &.disabled {
+      color: gray;
+      background-color: lighten(#E9ECEF,2%);
+    }
+
+    &:not(.disabled):hover {
+      cursor: pointer;
+      background-color: lighten(#D4009B, 30%);
+      transition: background-color 0.3s ease;
+    }
+  }
 }

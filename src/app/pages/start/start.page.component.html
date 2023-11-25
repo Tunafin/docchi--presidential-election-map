@@ -1,1 +1,14 @@
-<p>start.page works!</p>
+<div class="title-area">
+  <img src="assets/images/logo.svg" alt="Logo" width="138">
+  <h1 class="title-text" [class.mobile]="isMobile">台灣歷年總統 都幾?</h1>
+
+</div>
+
+<span class="hint-label">選擇查詢年份</span>
+
+<div class="year-chip-container" [class.mobile]="isMobile">
+  <div *ngFor="let year of yearDisabledList" class="year-chip disabled" matTooltip="暫無資料" [matTooltipShowDelay]="200"
+    [matTooltipPosition]="'above'">{{year}}</div>
+  <div *ngFor="let year of yearList" matRipple class="year-chip"
+     (click)="onYearChipClick(year)">{{year}}</div>
+</div>
