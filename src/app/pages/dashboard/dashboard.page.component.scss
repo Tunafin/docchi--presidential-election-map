@@ -1,3 +1,100 @@
+$navbarHeight: 66px;
+$mapWidth: 500px;
+
 :host {
   display: block;
+}
+
+:host mat-form-field ::ng-deep {
+  .mat-mdc-text-field-wrapper {
+    height: 40px;
+  }
+
+  .mat-mdc-form-field-infix {
+    padding: 8px 0;
+  }
+
+  .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+  padding: 0 12px;
+  height: $navbarHeight;
+
+  background-color: #fff;
+  border-bottom: #DEE2E6 1px solid;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.title-text {
+  font-family: Mantou Sans, sans-serif;
+  font-size: 28px;
+  line-height: 40px;
+  font-weight: 400;
+  letter-spacing: 0em;
+
+  color: #334155;
+
+  margin-left: 8px;
+}
+
+.select-year-label {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+
+  margin-left: 24px;
+  margin-right: 12px;
+}
+
+.share-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+
+  margin-right: 8px;
+}
+
+.select-wrapper {
+  width: 120px;
+  height: 40px;
+  border-radius: 500px;
+
+  background-color: #E9ECEF;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-select {
+    width: calc(100% - 24px);
+  }
+}
+
+.map-container {
+  position: fixed;
+  left: 0;
+  top: $navbarHeight;
+  bottom: 0;
+
+  width: $mapWidth;
+  background-color: #E4FAFF;
+}
+
+.main-container {
+  margin-top: $navbarHeight;
+  margin-left: $mapWidth;
 }

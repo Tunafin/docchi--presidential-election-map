@@ -1,1 +1,30 @@
-<p>dashboard.page works!</p>
+<div class="fixed">
+  <div class="navbar">
+    <img src="assets/images/logo.svg" alt="Logo" width="52">
+
+    <h1 class="title-text" [class.mobile]="isMobile">台灣歷年總統 都幾?</h1>
+
+    <span class="select-year-label">選擇年份</span>
+
+    <div class="select-wrapper" (click)="onSelectWrapperClick(yearSelect)">
+      <mat-select #yearSelect [(ngModel)]="selectedYear">
+        <mat-option *ngFor="let year of yearList" [value]="year">
+          {{year}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+
+    <span style="flex: auto"></span>
+
+    <app-share-toolbox></app-share-toolbox>
+  </div>
+</div>
+
+<div class="map-container">
+  MAP
+</div>
+
+<div class="main-container">
+  MAIN
+</div>
