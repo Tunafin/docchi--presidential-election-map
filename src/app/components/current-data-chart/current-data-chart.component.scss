@@ -1,0 +1,138 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+
+  background-color: #F3F4F4;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 30px;
+
+  margin: 8px 0 16px;
+}
+
+.widget-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  &.mobile {
+    flex-direction: column;
+  }
+
+  .widget {
+    flex: 1 1 45%;
+    min-height: 160px;
+    min-width: 200px;
+    box-sizing: border-box;
+    overflow-x: auto;
+    background-color: #fff;
+    border-radius: 12px;
+  }
+}
+
+.container-1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+
+  padding: 30px 24px;
+}
+
+.container-1-1 {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.content-box-1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+
+  .party {
+    color: #64748B;
+    font-size: 14px;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+
+  .candidate {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    color: #334155;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .count {
+    color: #334155;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+}
+
+.container-2 {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 12px 24px;
+  gap: 30px;
+
+  &.mobile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart {
+    min-width: 150px;
+    width: 150px;
+    height: 150px;
+    z-index: 10;
+
+    &.mobile {
+      min-width: 125px;
+      width: 125px;
+      height: 125px;
+    }
+  }
+
+  .container-2-2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    column-gap: 30px;
+    row-gap: 16px;
+  }
+}
+
+.content-box-2 {
+  width: 160px;
+
+  .label {
+    color: #64748B;
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .value {
+    color: #334155;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}

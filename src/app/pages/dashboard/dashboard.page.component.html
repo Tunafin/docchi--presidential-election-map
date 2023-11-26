@@ -1,30 +1,33 @@
 <div class="fixed">
-  <div class="navbar">
-    <img src="assets/images/logo.svg" alt="Logo" width="52">
+  <div class="navbar" [class.mobile]="isMobile">
+    <img src="assets/images/logo.svg" alt="Logo" [width]="isMobile ? 36 : 52">
 
     <h1 class="title-text" [class.mobile]="isMobile">台灣歷年總統 都幾?</h1>
 
-    <span class="select-year-label">選擇年份</span>
+    <span *ngIf="isMobile" style="flex: auto"></span>
 
-    <div class="select-wrapper" (click)="onSelectWrapperClick(yearSelect)">
-      <mat-select #yearSelect [(ngModel)]="selectedYear">
+    <span *ngIf="!isMobile" class="select-year-label">選擇年份</span>
+
+    <div class="select-wrapper" [class.mobile]="isMobile" (click)="onSelectWrapperClick(yearSelect)">
+      <mat-select #yearSelect [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="isMobile">
         <mat-option *ngFor="let year of yearList" [value]="year">
           {{year}}
         </mat-option>
       </mat-select>
     </div>
 
+    <span *ngIf="!isMobile" style="flex: auto"></span>
 
-    <span style="flex: auto"></span>
-
-    <app-share-toolbox></app-share-toolbox>
+    <app-share-toolbox *ngIf="!isMobile"></app-share-toolbox>
   </div>
 </div>
 
-<div class="map-container">
+<div class="map-container" [class.mobile]="isMobile">
   <app-map-chart [counties]="counties"></app-map-chart>
 </div>
 
-<div class="main-container">
-  MAIN
+<div class="main-container" [class.mobile]="isMobile">
+  <h2 class="sub-title">全臺縣市總統得票</h2>
+
+  <app-current-data-chart [county]="counties && counties[0]"></app-current-data-chart>
 </div>

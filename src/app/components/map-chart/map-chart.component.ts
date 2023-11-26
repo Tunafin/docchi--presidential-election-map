@@ -65,7 +65,6 @@ export class MapChartComponent implements OnInit, OnDestroy {
       registerMap(COUNTY_MOI_MAP, COUNTY_MOI);
       this.isLoading = false;
       this.setCounties();
-      this.chartInstance?.hideLoading();
       this.cdr.detectChanges();
     })
   }
@@ -136,23 +135,20 @@ export class MapChartComponent implements OnInit, OnDestroy {
             let text = `<span style="font-size: 20px; font-weight: bold">${params.name}</span><br/>`;
             valueList.forEach(value => {
               text += `
-                  <span style="display: inline-block; width: 80px;">${value.party}: </span>
-                  <span style="display: inline-block; width: 60px; text-align: end">${formatNumber(value.voteCount, 'en')}</span>
-                  <br/>`
+                    <span style="display: inline-block; width: 80px;">${value.party}: </span>
+                    <span style="display: inline-block; width: 60px; text-align: end">${formatNumber(value.voteCount, 'en')}</span>
+                    <br/>`
             })
             return text;
           },
         },
         series: [series]
       }, true);
-
-      this.cdr.detectChanges();
     }
   }
 
   onChartInit(e: ECharts) {
     this.chartInstance = e;
-    this.chartInstance.showLoading();
     this.cdr.detectChanges();
 
     this.queryAndSetSeries();

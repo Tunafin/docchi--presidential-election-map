@@ -1,2 +1,2 @@
-<div echarts class="chart" [options]="basicOptions" [initOpts]="{ renderer: 'svg' }" (chartInit)="onChartInit($event)"
+<div echarts class="chart" [options]="basicOptions" [initOpts]="{ renderer: 'svg' }" (chartInit)="onChartInit($event)" [loading]="isLoading"
   (chartClick)="onChartClick($event)"></div>

@@ -6,6 +6,7 @@ export interface CountyModel {
     候選人組合: string[];
     票數: number;
   }[];
+  當選政黨: string;
   有效票數: number;
   無效票數: number;
   投票數: number;

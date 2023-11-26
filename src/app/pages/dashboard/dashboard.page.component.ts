@@ -14,14 +14,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { Subject, takeUntil, zip } from 'rxjs';
 
+import { CountyModel } from './../../models/county.model';
 import { ShareToolboxComponent } from '../../components/share-toolbox/share-toolbox.component';
 import { MapChartComponent } from '../../components/map-chart/map-chart.component';
-import { CountyModel } from './../../models/county.model';
+import { CurrentDataChartComponent } from '../../components/current-data-chart/current-data-chart.component';
 
 export const PARTY_COLOR_LIST = new Map<string, string>();
 PARTY_COLOR_LIST.set('中國國民黨', '#7f82ff');
 PARTY_COLOR_LIST.set('民主進步黨', '#57d2a9');
-PARTY_COLOR_LIST.set('親民黨', '	#f4a76f');
+PARTY_COLOR_LIST.set('親民黨', '#f4a76f');
+
+export const PARTY_AVATOR_LIST = new Map<string, string>();
+PARTY_AVATOR_LIST.set('中國國民黨', 'assets/images/avatar_blue.png');
+PARTY_AVATOR_LIST.set('民主進步黨', 'assets/images/avatar_green.png');
+PARTY_AVATOR_LIST.set('親民黨', 'assets/images/avatar_orange.png');
 
 const ALL = '全部';
 
@@ -41,6 +47,7 @@ const ALL = '全部';
 
     ShareToolboxComponent,
     MapChartComponent,
+    CurrentDataChartComponent,
   ],
   templateUrl: './dashboard.page.component.html',
   styleUrl: './dashboard.page.component.scss',

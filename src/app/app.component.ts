@@ -17,7 +17,7 @@ export class AppComponent {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
 
     // 註冊自定義的 svg 圖示
-    ['facebook', 'instagram', 'youtube'].forEach(iconName => {
+    ['facebook', 'instagram', 'youtube', 'check_circle'].forEach(iconName => {
       iconRegistry.addSvgIcon(iconName, sanitizer.bypassSecurityTrustResourceUrl(`assets/images/${iconName}.svg`));
     });
   }

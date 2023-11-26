@@ -1,8 +1,10 @@
 $navbarHeight: 66px;
 $mapWidth: 500px;
+$minScreenWidth: 375px;
 
 :host {
   display: block;
+  min-width: $minScreenWidth;
 }
 
 :host mat-form-field ::ng-deep {
@@ -26,9 +28,14 @@ $mapWidth: 500px;
   box-sizing: border-box;
   padding: 0 12px;
   height: $navbarHeight;
+  min-width: $minScreenWidth;
 
   background-color: #fff;
   border-bottom: #DEE2E6 1px solid;
+
+  &.mobile {
+    padding: 0 8px;
+  }
 }
 
 .fixed {
@@ -36,6 +43,7 @@ $mapWidth: 500px;
   top: 0;
   left: 0;
   right: 0;
+  z-index: 100;
 }
 
 .title-text {
@@ -48,6 +56,11 @@ $mapWidth: 500px;
   color: #334155;
 
   margin-left: 8px;
+
+  &.mobile {
+    font-size: 20px;
+    line-height: 28px;
+  }
 }
 
 .select-year-label {
@@ -79,6 +92,11 @@ $mapWidth: 500px;
   justify-content: center;
   align-items: center;
 
+  &.mobile {
+    width: 90px;
+    height: 30px;
+  }
+
   mat-select {
     width: calc(100% - 24px);
   }
@@ -92,9 +110,36 @@ $mapWidth: 500px;
 
   width: $mapWidth;
   background-color: #E4FAFF;
+
+  &.mobile {
+    position: relative;
+    width: 100%;
+    height: 500px;
+  }
 }
 
 .main-container {
   margin-top: $navbarHeight;
   margin-left: $mapWidth;
+
+  height: 1200px;
+  background-color: bisque;
+  padding: 32px 48px;
+
+  &.mobile {
+    margin-top: $navbarHeight;
+    margin-left: 0;
+    padding: 32px 24px;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sub-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 42px;
+
+    margin: 0 0 24px;
+  }
 }
