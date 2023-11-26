@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# 自定義
+deploy.sh
+
 # Compiled output
 /dist
 /tmp
