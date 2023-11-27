@@ -14,3 +14,7 @@ export interface CountyModel {
   選舉人數: number;
   投票率: number;
 }
+
+export interface TownModel extends CountyModel {
+  所在縣市: string;
+}

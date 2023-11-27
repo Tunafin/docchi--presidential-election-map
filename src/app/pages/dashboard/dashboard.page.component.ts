@@ -20,6 +20,7 @@ import { ShareToolboxComponent } from '../../components/share-toolbox/share-tool
 import { MapChartComponent } from '../../components/map-chart/map-chart.component';
 import { CurrentDataChartComponent } from '../../components/current-data-chart/current-data-chart.component';
 import { HistoryDataChartComponent } from '../../components/history-data-chart/history-data-chart.component';
+import { AreaDataTableComponent } from '../../components/area-data-table/area-data-table.component';
 
 export const PARTY_COLOR_LIST = new Map<string, string>();
 PARTY_COLOR_LIST.set('中國國民黨', '#7f82ff');
@@ -53,6 +54,7 @@ const ALL = '全部';
     MapChartComponent,
     CurrentDataChartComponent,
     HistoryDataChartComponent,
+    AreaDataTableComponent,
   ],
   templateUrl: './dashboard.page.component.html',
   styleUrl: './dashboard.page.component.scss',
