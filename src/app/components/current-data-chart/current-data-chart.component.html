@@ -1,4 +1,9 @@
-<h3 class="g-h5">總統得票數</h3>
+<h3 class="g-h5">
+  總統得票數
+  <ng-container *ngIf="county">
+    / {{county['行政區別']}}
+  </ng-container>
+</h3>
 
 <div class="widget-container" [class.mobile]="isMobile">
 

@@ -63,11 +63,10 @@ const ALL = '全部';
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
   selectedYear: number;
+  selectedCounty?: CountyModel;
 
   counties?: CountyModel[]; // 存放當前選取年的縣市資料，並給子元件用
   readonly queriedList = new Map<number, CountyModel[]>(); // 存放所有年的縣市資料
-
-  selectedCounty: string = ALL;
 
   isMobile = false;
 
@@ -116,8 +115,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
       resList.forEach((res, index) => {
         this.queriedList.set(this.yearList[index], res);
       });
-      this.counties = this.queriedList.get(this.selectedYear);
-      this.cdr.detectChanges();
+      this.onSelectedYearChange(this.selectedYear);
     })
   }
 
@@ -129,7 +127,18 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   onSelectedYearChange(year: number) {
     this.router.navigate(['..', year], { relativeTo: this.route, replaceUrl: true });
-    this.counties = this.queriedList.get(this.selectedYear);
+    this.counties = this.queriedList.get(this.selectedYear)!;
+    this.selectedCounty = this.counties[0];
+    this.cdr.detectChanges();
+  }
+
+  onSelectedCountyChange(county: CountyModel) {
+    this.selectedCounty = county;
+    this.cdr.detectChanges();
+  }
+
+  onMapCountyClick(countyName: string) {
+    this.selectedCounty = this.counties?.find(c=>c['行政區別']===countyName);
     this.cdr.detectChanges();
   }
 

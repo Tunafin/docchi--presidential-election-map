@@ -10,11 +10,21 @@
 
     <span *ngIf="!isMobile" class="g-h6 select-year-label">選擇年份</span>
 
-    <div class="select-wrapper" [class.mobile]="isMobile" (click)="onSelectWrapperClick(yearSelect)">
+    <div class="select-wrapper year" [class.mobile]="isMobile" (click)="onSelectWrapperClick(yearSelect)">
       <mat-select #yearSelect [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="isMobile"
-      (ngModelChange)="onSelectedYearChange($event)">
+        (ngModelChange)="onSelectedYearChange($event)">
         <mat-option *ngFor="let year of yearList" [value]="year">
           {{year}}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <div *ngIf="!isMobile" class="select-wrapper county" [class.mobile]="isMobile"
+      (click)="onSelectWrapperClick(countySelect)">
+      <mat-select #countySelect [(ngModel)]="selectedCounty" [hideSingleSelectionIndicator]="isMobile"
+        (ngModelChange)="onSelectedCountyChange($event)">
+        <mat-option *ngFor="let county of counties" [value]="county">
+          {{county['行政區別']}}
         </mat-option>
       </mat-select>
     </div>
@@ -23,16 +33,28 @@
 
     <app-share-toolbox *ngIf="!isMobile"></app-share-toolbox>
   </div>
+
+  <div *ngIf="isMobile" class="navbar mobile">
+    <div class="select-wrapper county mobile" (click)="onSelectWrapperClick(countySelect)">
+      <mat-select #countySelect [(ngModel)]="selectedCounty" [hideSingleSelectionIndicator]="isMobile"
+        (ngModelChange)="onSelectedCountyChange($event)">
+        <mat-option *ngFor="let county of counties" [value]="county">
+          {{county['行政區別']}}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
 </div>
 
 <div class="map-container" [class.mobile]="isMobile">
-  <app-map-chart [counties]="counties" [year]="selectedYear"></app-map-chart>
+  <app-map-chart [counties]="counties" [selectedCounty]="selectedCounty" [year]="selectedYear"
+    (countyClick)="onMapCountyClick($event)"></app-map-chart>
 </div>
 
 <div class="main-container" [class.mobile]="isMobile">
   <h2 class="sub-title">全臺縣市總統得票</h2>
 
-  <app-current-data-chart [county]="counties && counties[0]"></app-current-data-chart>
+  <app-current-data-chart [county]="selectedCounty"></app-current-data-chart>
 
   <app-history-data-chart></app-history-data-chart>
 

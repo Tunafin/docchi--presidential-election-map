@@ -40,6 +40,7 @@ $minScreenWidth: 375px;
 
   &.mobile {
     padding: 0 8px;
+    height: 45px;
   }
 }
 
@@ -80,9 +81,17 @@ $minScreenWidth: 375px;
 }
 
 .select-wrapper {
-  width: 120px;
   height: 40px;
   border-radius: 500px;
+
+  &.year {
+    width: 120px;
+  }
+
+  &.county {
+    width: 200px;
+    margin-left: 8px;
+  }
 
   background-color: #E9ECEF;
   cursor: pointer;
@@ -92,8 +101,15 @@ $minScreenWidth: 375px;
   align-items: center;
 
   &.mobile {
-    width: 90px;
-    height: 30px;
+    height: 27px;
+
+    &.year {
+      width: 90px;
+    }
+
+    &.county {
+      width: 100%;
+    }
   }
 
   mat-select {

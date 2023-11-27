@@ -1,14 +1,15 @@
 import { CommonModule, formatNumber } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { NgxEchartsDirective } from 'ngx-echarts';
-import { ECElementEvent, ECharts, EChartsOption, SeriesOption, registerMap } from 'echarts';
+import { ECharts, EChartsOption, SeriesOption, registerMap } from 'echarts';
 import { Subject, timer, zip } from 'rxjs';
 import { maxBy } from 'lodash';
 
 import { CountyModel } from '../../models/county.model';
 import { PARTY_COLOR_LIST } from '../../pages/dashboard/dashboard.page.component';
+import { countyCenterMap, defaultCenter } from './county-center-map';
 
 const COUNTY_MOI_MAP = 'COUNTY_MOI_MAP';
 
@@ -28,6 +29,9 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() year?: number;
 
   @Input() counties?: CountyModel[];
+  @Input() selectedCounty?: CountyModel;
+
+  @Output() countyClick = new EventEmitter<string>();
 
   readonly basicOptions: EChartsOption;
   chartInstance?: ECharts;
@@ -50,8 +54,10 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes) {
+    if (changes['year'] || changes['counties']) {
       this.setCounties();
+    } else if (changes['selectedCounty']) {
+      this.moveToCounty();
     }
   }
 
@@ -135,14 +141,14 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
 
       const basicSeriesOption: SeriesOption = {
         aspectScale: 0.9,
-        scaleLimit: { min: 4, max: 10 },
-        // id: COUNTY_MOI_MAP,
-        // name: COUNTY_MOI_MAP,
+        scaleLimit: { min: 4, max: 12 },
+        id: COUNTY_MOI_MAP,
+        name: COUNTY_MOI_MAP,
         type: 'map',
         map: COUNTY_MOI_MAP,
         roam: true,
-        center: [120.7, 23.8],
-        zoom: 4,
+        center: defaultCenter.center,
+        zoom: defaultCenter.zoom,
         label: {
           show: true,
           textBorderType: 'solid',
@@ -196,14 +202,21 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  moveToCounty() {
+    const { center, zoom } = countyCenterMap.get(this.selectedCounty!['行政區別']) ?? defaultCenter;
+
+    this.chartInstance?.setOption({
+      series: {
+        id: COUNTY_MOI_MAP,
+        roam: true,
+        center,
+        zoom,
+      }
+    });
+  }
+
   onChartInit(e: ECharts) {
     this.chartInstance = e;
     this.queryAndSetSeries();
-  }
-
-  onChartClick(event: ECElementEvent) {
-    const countyName = event.name;
-
-    // TODO
   }
 }
