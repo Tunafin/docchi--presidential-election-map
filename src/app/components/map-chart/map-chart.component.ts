@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { NgxEchartsDirective } from 'ngx-echarts';
 import { ECElementEvent, ECharts, EChartsOption, SeriesOption, registerMap } from 'echarts';
-import { Subject, zip } from 'rxjs';
+import { Subject, timer, zip } from 'rxjs';
 import { maxBy } from 'lodash';
 
 import { CountyModel } from '../../models/county.model';
@@ -23,7 +23,7 @@ const COUNTY_MOI_MAP = 'COUNTY_MOI_MAP';
   styleUrl: './map-chart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
+export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() year?: number;
 
@@ -33,6 +33,7 @@ export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
   chartInstance?: ECharts;
 
   isLoading = true;
+  showLoading = true;
 
   private readonly _destroyed = new Subject<void>();
 
@@ -49,7 +50,7 @@ export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes) {
+    if (changes) {
       this.setCounties();
     }
   }
@@ -64,6 +65,11 @@ export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
       registerMap(COUNTY_MOI_MAP, COUNTY_MOI);
       this.isLoading = false;
       this.setCounties();
+
+      timer(500).subscribe(() => {
+        this.showLoading = false;
+        this.cdr.detectChanges();
+      });
     })
   }
 
@@ -192,7 +198,6 @@ export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
 
   onChartInit(e: ECharts) {
     this.chartInstance = e;
-
     this.queryAndSetSeries();
   }
 

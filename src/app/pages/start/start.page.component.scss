@@ -3,8 +3,9 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  margin: 96px 0;
+  padding-top: 96px;
 
+  box-sizing: border-box;
   height: 100vh;
   min-width: 375px;
   min-height: 812px;
@@ -72,7 +73,7 @@
 
     &.disabled {
       color: gray;
-      background-color: lighten(#E9ECEF,2%);
+      background-color: lighten(#E9ECEF, 2%);
     }
 
     &:not(.disabled):hover {

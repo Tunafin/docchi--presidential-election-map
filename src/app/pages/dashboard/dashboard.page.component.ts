@@ -132,4 +132,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     this.counties = this.queriedList.get(this.selectedYear);
     this.cdr.detectChanges();
   }
+
+  backToStartPage() {
+    this.router.navigate(['/']);
+  }
 }

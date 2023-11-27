@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { NgxEchartsDirective } from 'ngx-echarts';
 import { ECharts, EChartsOption } from 'echarts';
-import { Subject } from 'rxjs';
+import { Subject, timer } from 'rxjs';
 import { random } from 'lodash';
 
 import { PartyHistoryModel, getDefaultPartyHistoryModelList } from '../../models/party-history.model';
@@ -50,11 +50,11 @@ export class HistoryDataChartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
+    timer(random(500, 1500)).subscribe(() => {
       this.partyHistoryList = getDefaultPartyHistoryModelList();
       this.setBarSeries();
       this.setLineSeries();
-    }, random(500, 2000));
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

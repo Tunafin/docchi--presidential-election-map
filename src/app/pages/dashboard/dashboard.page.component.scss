@@ -21,6 +21,11 @@ $minScreenWidth: 375px;
   }
 }
 
+.title-with-logo {
+  display: flex;
+  cursor: pointer;
+}
+
 .navbar {
   display: flex;
   align-items: center;
