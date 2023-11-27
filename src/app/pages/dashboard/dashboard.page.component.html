@@ -9,7 +9,8 @@
     <span *ngIf="!isMobile" class="select-year-label">選擇年份</span>
 
     <div class="select-wrapper" [class.mobile]="isMobile" (click)="onSelectWrapperClick(yearSelect)">
-      <mat-select #yearSelect [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="isMobile">
+      <mat-select #yearSelect [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="isMobile"
+      (ngModelChange)="onSelectedYearChange($event)">
         <mat-option *ngFor="let year of yearList" [value]="year">
           {{year}}
         </mat-option>
@@ -23,7 +24,7 @@
 </div>
 
 <div class="map-container" [class.mobile]="isMobile">
-  <app-map-chart [counties]="counties"></app-map-chart>
+  <app-map-chart [counties]="counties" [year]="selectedYear"></app-map-chart>
 </div>
 
 <div class="main-container" [class.mobile]="isMobile">

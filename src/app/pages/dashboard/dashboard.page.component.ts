@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,11 +24,13 @@ export const PARTY_COLOR_LIST = new Map<string, string>();
 PARTY_COLOR_LIST.set('中國國民黨', '#7f82ff');
 PARTY_COLOR_LIST.set('民主進步黨', '#57d2a9');
 PARTY_COLOR_LIST.set('親民黨', '#f4a76f');
+PARTY_COLOR_LIST.set('無黨籍及未經政黨推薦', '#9d9d9d');
 
 export const PARTY_AVATOR_LIST = new Map<string, string>();
 PARTY_AVATOR_LIST.set('中國國民黨', 'assets/images/avatar_blue.png');
 PARTY_AVATOR_LIST.set('民主進步黨', 'assets/images/avatar_green.png');
 PARTY_AVATOR_LIST.set('親民黨', 'assets/images/avatar_orange.png');
+PARTY_AVATOR_LIST.set('無黨籍及未經政黨推薦', 'assets/images/avatar_orange.png');
 
 const ALL = '全部';
 
@@ -55,9 +58,10 @@ const ALL = '全部';
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
-  selectedYear = 2020;
+  selectedYear: number;
 
-  counties?: CountyModel[];
+  counties?: CountyModel[]; // 存放當前選取年的縣市資料，並給子元件用
+  readonly queriedList = new Map<number, CountyModel[]>(); // 存放所有年的縣市資料
 
   selectedCounty: string = ALL;
 
@@ -69,6 +73,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
@@ -83,6 +88,13 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
         this.isMobile = result.matches;
         this.cdr.markForCheck();
       });
+
+    // 設定初始選擇年份
+    let year = coerceNumberProperty(this.route.snapshot.paramMap.get('year'), 2020);
+    if (!this.yearList.includes(year)) {
+      year = 2020;
+    }
+    this.selectedYear = year;
   }
 
   ngOnInit(): void {
@@ -95,8 +107,12 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   queryData() {
-    zip(this.http.get<any>('assets/data/2020.json')).subscribe(([county2020]) => {
-      this.counties = county2020;
+    const observableList = this.yearList.map(year => this.http.get<any>(`assets/data/${year}.json`));
+    zip(observableList).subscribe(([county2012, county2016, county2020]) => {
+      this.queriedList.set(2012, county2012);
+      this.queriedList.set(2016, county2016);
+      this.queriedList.set(2020, county2020);
+      this.counties = this.queriedList.get(this.selectedYear);
       this.cdr.detectChanges();
     })
   }
@@ -105,5 +121,11 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     if (!select.panelOpen) {
       select.open();
     }
+  }
+
+  onSelectedYearChange(year: number) {
+    this.router.navigate(['..', year], { relativeTo: this.route, replaceUrl: true });
+    this.counties = this.queriedList.get(this.selectedYear);
+    this.cdr.detectChanges();
   }
 }

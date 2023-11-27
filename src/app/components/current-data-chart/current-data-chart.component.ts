@@ -1,5 +1,5 @@
 import { CommonModule, formatNumber } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -26,16 +26,9 @@ import { PARTY_AVATOR_LIST, PARTY_COLOR_LIST } from '../../pages/dashboard/dashb
   styleUrl: './current-data-chart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CurrentDataChartComponent implements OnInit, OnDestroy {
+export class CurrentDataChartComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input()
-  public get county(): CountyModel | undefined { return this._county; }
-  public set county(value: CountyModel | undefined) {
-    this._county = value;
-    this.setSeries();
-  }
-  private _county?: CountyModel | undefined;
-
+  @Input() county?: CountyModel;
 
   readonly basicPieOptions: EChartsOption;
 
@@ -72,8 +65,10 @@ export class CurrentDataChartComponent implements OnInit, OnDestroy {
           let text = `${params.marker} ${params.name}<br/>`;
 
           if (this.county) {
-            text += formatNumber(params.data.value / sumBy(this.county['候選人資料列表'], d => d['票數']) * 100, 'en', '.2-2') + '% (得票率)<br>';
-            text += formatNumber(params.data.value / this.county['選舉人數'] * 100, 'en', '.2-2') + '% (所有占比)<br>';
+            if (!params.name.startsWith('未投票')) {
+              text += '得票率:' + formatNumber(params.data.value / sumBy(this.county['候選人資料列表'], d => d['票數']) * 100, 'en', '.2-2') + '% <br>';
+            }
+            // text += formatNumber(params.data.value / this.county['選舉人數'] * 100, 'en', '.2-2') + '% (所有占比)<br>';
           }
 
           return text;
@@ -85,6 +80,12 @@ export class CurrentDataChartComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes) {
+      this.setSeries();
+    }
+  }
+
   ngOnDestroy(): void {
     this._destroyed.next();
     this._destroyed.complete();
@@ -94,12 +95,11 @@ export class CurrentDataChartComponent implements OnInit, OnDestroy {
     this.chartInstance = e;
     this.isLoading = false;
     this.setSeries();
-    this.cdr.detectChanges();
   }
 
   setSeries() {
     if (!this.isLoading && this.chartInstance && this.county) {
-      const seriesData = this.county['候選人資料列表'].map(d => ({
+      const seriesData: any[] = this.county['候選人資料列表'].map(d => ({
         name: d['黨籍'],
         value: d['票數'],
         itemStyle: {
@@ -111,9 +111,14 @@ export class CurrentDataChartComponent implements OnInit, OnDestroy {
         name: '未投票 & 無效票',
         value: this.county['選舉人數'] - sumBy(this.county['候選人資料列表'], d => d['票數']),
         itemStyle: {
-          color: 'gray',
-          opacity: 0.1
+          color: '#000',
+          opacity: 0.035
         },
+        emphasis: {
+          itemStyle: {
+            opacity: 0.1
+          }
+        }
       })
 
       const series: SeriesOption = {
