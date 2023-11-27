@@ -53,8 +53,6 @@ $minScreenWidth: 375px;
   font-weight: 400;
   letter-spacing: 0em;
 
-  color: #334155;
-
   margin-left: 8px;
 
   &.mobile {
@@ -64,10 +62,6 @@ $minScreenWidth: 375px;
 }
 
 .select-year-label {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-
   margin-left: 24px;
   margin-right: 12px;
 }
@@ -122,9 +116,11 @@ $minScreenWidth: 375px;
   margin-top: $navbarHeight;
   margin-left: $mapWidth;
 
-  height: 1200px;
-  background-color: bisque;
-  padding: 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  padding: 32px 32px;
 
   &.mobile {
     margin-top: $navbarHeight;
@@ -140,6 +136,6 @@ $minScreenWidth: 375px;
     font-weight: 700;
     line-height: 42px;
 
-    margin: 0 0 24px;
+    margin: 0;
   }
 }

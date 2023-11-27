@@ -1,0 +1,11 @@
+<div class="box">
+  <h3 class="g-h5">歷屆政黨得票數</h3>
+  <div echarts class="chart" [options]="basicBarOptions" [initOpts]="{ renderer: 'svg' }"
+    (chartInit)="onBarChartInit($event)" [loading]="!partyHistoryList" [loadingOpts]="{color: '#d4009b'}"></div>
+</div>
+
+<div class="box">
+  <h3 class="g-h5">歷屆政黨得票率</h3>
+  <div echarts class="chart" [options]="basicLineOptions" [initOpts]="{ renderer: 'svg' }"
+    (chartInit)="onLineChartInit($event)" [loading]="!partyHistoryList" [loadingOpts]="{color: '#d4009b'}"></div>
+</div>

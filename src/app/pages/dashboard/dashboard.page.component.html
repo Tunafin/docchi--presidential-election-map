@@ -6,7 +6,7 @@
 
     <span *ngIf="isMobile" style="flex: auto"></span>
 
-    <span *ngIf="!isMobile" class="select-year-label">選擇年份</span>
+    <span *ngIf="!isMobile" class="g-h6 select-year-label">選擇年份</span>
 
     <div class="select-wrapper" [class.mobile]="isMobile" (click)="onSelectWrapperClick(yearSelect)">
       <mat-select #yearSelect [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="isMobile"
@@ -31,4 +31,6 @@
   <h2 class="sub-title">全臺縣市總統得票</h2>
 
   <app-current-data-chart [county]="counties && counties[0]"></app-current-data-chart>
+
+  <app-history-data-chart></app-history-data-chart>
 </div>

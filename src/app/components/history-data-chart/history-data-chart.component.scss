@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+
+  &>* {
+    flex: 1 1 40%;
+    min-width: 300px;
+    overflow-x: auto;
+  }
+}
+
+.box {
+  border: 1px solid #DEE2E6;
+  border-radius: 12px;
+  background-color: #fff;
+
+  padding: 20px 16px;
+}
+
+.chart {
+  min-width: 600px;
+  height: 250px;
+}

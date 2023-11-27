@@ -19,6 +19,7 @@ import { CountyModel } from './../../models/county.model';
 import { ShareToolboxComponent } from '../../components/share-toolbox/share-toolbox.component';
 import { MapChartComponent } from '../../components/map-chart/map-chart.component';
 import { CurrentDataChartComponent } from '../../components/current-data-chart/current-data-chart.component';
+import { HistoryDataChartComponent } from '../../components/history-data-chart/history-data-chart.component';
 
 export const PARTY_COLOR_LIST = new Map<string, string>();
 PARTY_COLOR_LIST.set('中國國民黨', '#7f82ff');
@@ -51,6 +52,7 @@ const ALL = '全部';
     ShareToolboxComponent,
     MapChartComponent,
     CurrentDataChartComponent,
+    HistoryDataChartComponent,
   ],
   templateUrl: './dashboard.page.component.html',
   styleUrl: './dashboard.page.component.scss',
@@ -108,10 +110,10 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   queryData() {
     const observableList = this.yearList.map(year => this.http.get<any>(`assets/data/${year}.json`));
-    zip(observableList).subscribe(([county2012, county2016, county2020]) => {
-      this.queriedList.set(2012, county2012);
-      this.queriedList.set(2016, county2016);
-      this.queriedList.set(2020, county2020);
+    zip(observableList).subscribe((resList) => {
+      resList.forEach((res, index) => {
+        this.queriedList.set(this.yearList[index], res);
+      });
       this.counties = this.queriedList.get(this.selectedYear);
       this.cdr.detectChanges();
     })

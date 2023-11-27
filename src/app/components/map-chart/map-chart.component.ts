@@ -119,7 +119,7 @@ export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
           }
           if (countyName === '澎湖縣' || countyName === '金門縣' || countyName === '連江縣') {
             data.label = {
-              offset: [20, 20]
+              offset: [20, 20],
             }
           }
         }
@@ -139,15 +139,14 @@ export class MapChartComponent implements OnInit,OnChanges, OnDestroy {
         zoom: 4,
         label: {
           show: true,
-          textBorderColor: '#334155',
           textBorderType: 'solid',
-          textBorderWidth: 1,
+          textBorderWidth: 2.5,
+          textBorderColor: '#334155',
           color: '#fff',
           formatter: (params: any) => params.name.slice(0, 2)
         },
         emphasis: {
           label: {
-            textBorderColor: '#334155',
             textBorderType: 'solid',
             textBorderWidth: 1,
             color: '#fff',
