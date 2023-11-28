@@ -1,27 +1,32 @@
-# DocchiPresidentialElectionMap
+# [THE F2E 2023] Mission 2 - 總統即時開票全台地圖
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.1.
+## 專案介紹
 
-## Development server
+本專案為 [THE F2E 2023] 關卡二的投稿作品，主題為「總統即時開票全台地圖」。
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+以下為相關連結。
 
-## Code scaffolding
+* [DEMO](https://tunafin.github.io/docchi--presidential-election-map/)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* [THE F2E 2023 官網](https://2023.thef2e.com/)
 
-## Build
+* [畫面參考來源](https://2023.thef2e.com/users/12061579704041679194?week=2) (特別感謝UI設計師提供數計搞！)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 如何運行
 
-## Running unit tests
+安裝所需套件
+```
+npm install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+在本地端運行
+```
+npm start
+```
 
-## Running end-to-end tests
+## 主要使用技術
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* Node.js (v20.9.0)
+* Angular (v17)
+* Angular Material
+* ECharts (v5.4)
