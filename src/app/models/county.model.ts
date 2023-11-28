@@ -16,5 +16,5 @@ export interface CountyModel {
 }
 
 export interface TownModel extends CountyModel {
-  所在縣市: string;
+  '鄉(鎮、市、區)別': string;
 }

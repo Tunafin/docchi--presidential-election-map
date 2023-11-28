@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { Subject, takeUntil, zip } from 'rxjs';
 
-import { CountyModel } from './../../models/county.model';
+import { CountyModel, TownModel } from './../../models/county.model';
 import { ShareToolboxComponent } from '../../components/share-toolbox/share-toolbox.component';
 import { MapChartComponent } from '../../components/map-chart/map-chart.component';
 import { CurrentDataChartComponent } from '../../components/current-data-chart/current-data-chart.component';
@@ -63,10 +63,25 @@ const ALL = '全部';
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
   selectedYear: number;
-  selectedCounty?: CountyModel;
+
+  // 目前選取的鄉鎮縣市
+  selectedTown: TownModel | null = null;
+
+  // 目前選取的縣市
+  private _selectedCounty: CountyModel | null = null;
+  public get selectedCounty(): CountyModel | null { return this._selectedCounty; }
+  public set selectedCounty(value: CountyModel | null) {
+    this._selectedCounty = value;
+
+    this._selectedCountyTowns = value && value['行政區別'] !== ALL && this.yearTownsPairMap
+      .get(this.selectedYear)?.filter(town => town['行政區別'] === value['行政區別']) || null;
+  }
+  private _selectedCountyTowns: TownModel[] | null = null;
+  public get selectedCountyTowns(): TownModel[] | null { return this._selectedCountyTowns; }
 
   counties?: CountyModel[]; // 存放當前選取年的縣市資料，並給子元件用
-  readonly queriedList = new Map<number, CountyModel[]>(); // 存放所有年的縣市資料
+  readonly yearCountiesPairMap = new Map<number, CountyModel[]>(); // 存放各年的縣市資料
+  readonly yearTownsPairMap = new Map<number, TownModel[]>(); // 存放各年的鄉鎮市區資料
 
   isMobile = false;
 
@@ -110,10 +125,13 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   queryData() {
-    const observableList = this.yearList.map(year => this.http.get<any>(`assets/data/${year}.json`));
+    const observableList = this.yearList.map(year => this.http.get<any>(`assets/data/towns_${year}.json`));
     zip(observableList).subscribe((resList) => {
-      resList.forEach((res, index) => {
-        this.queriedList.set(this.yearList[index], res);
+      resList.forEach((res: TownModel[], index) => {
+        const conuties = res.filter(r => r['鄉(鎮、市、區)別'] === ALL);
+
+        this.yearCountiesPairMap.set(this.yearList[index], conuties);
+        this.yearTownsPairMap.set(this.yearList[index], res);
       });
       this.onSelectedYearChange(this.selectedYear);
     })
@@ -127,18 +145,31 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   onSelectedYearChange(year: number) {
     this.router.navigate(['..', year], { relativeTo: this.route, replaceUrl: true });
-    this.counties = this.queriedList.get(this.selectedYear)!;
-    this.selectedCounty = this.counties[0];
-    this.cdr.detectChanges();
+    this.counties = this.yearCountiesPairMap.get(this.selectedYear)!;
+    this.selectCounty(this.counties[0]);
   }
 
   onSelectedCountyChange(county: CountyModel) {
-    this.selectedCounty = county;
-    this.cdr.detectChanges();
+    this.selectCounty(county);
   }
 
   onMapCountyClick(countyName: string) {
-    this.selectedCounty = this.counties?.find(c=>c['行政區別']===countyName);
+    const county = this.counties!.find(c => c['行政區別'] === countyName) ?? null;
+    this.selectCounty(county);
+  }
+
+  // 選取縣市
+  selectCounty(county: CountyModel | null) {
+    if (this.selectedCounty !== county) {
+      this.selectedCounty = county;
+      this.selectedTown = null;
+      this.cdr.detectChanges();
+    }
+  }
+
+  // 選取鄉鎮縣市
+  selectTown(town: TownModel) {
+    this.selectedTown = town;
     this.cdr.detectChanges();
   }
 

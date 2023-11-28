@@ -47,16 +47,16 @@
 </div>
 
 <div class="map-container" [class.mobile]="isMobile">
-  <app-map-chart [counties]="counties" [selectedCounty]="selectedCounty" [year]="selectedYear"
+  <app-map-chart [towns]="selectedCountyTowns" [counties]="counties" [selectedCounty]="selectedCounty" [year]="selectedYear"
     (countyClick)="onMapCountyClick($event)"></app-map-chart>
 </div>
 
 <div class="main-container" [class.mobile]="isMobile">
   <h2 class="sub-title">全臺縣市總統得票</h2>
 
-  <app-current-data-chart [county]="selectedCounty"></app-current-data-chart>
+  <app-current-data-chart [townOrCounty]="selectedTown ?? selectedCounty"></app-current-data-chart>
 
   <app-history-data-chart></app-history-data-chart>
 
-  <app-area-data-table [counties]="counties"></app-area-data-table>
+  <app-area-data-table [counties]="counties" [selectedCountyTowns]="selectedCountyTowns"></app-area-data-table>
 </div>

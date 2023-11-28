@@ -1,7 +1,10 @@
 <h3 class="g-h5">
   總統得票數
-  <ng-container *ngIf="county">
-    / {{county['行政區別']}}
+  <ng-container *ngIf="townOrCounty">
+    / {{townOrCounty['行政區別']}}
+    <ng-container *ngIf="townName">
+      / {{townName}}
+    </ng-container>
   </ng-container>
 </h3>
 
@@ -9,8 +12,8 @@
 
   <!-- 左半邊 -->
   <div class="widget">
-    <div *ngIf="county" class="container-1">
-      <div *ngFor="let item of county['候選人資料列表']">
+    <div *ngIf="townOrCounty" class="container-1">
+      <div *ngFor="let item of townOrCounty['候選人資料列表']">
         <div class="container-1-1">
           <img [src]="PARTY_AVATOR_LIST.get(item['黨籍'])" width="48" height="48" [style.borderRadius.px]="16">
 
@@ -21,7 +24,7 @@
 
             <span class="candidate">{{item['候選人組合'][0]}} /
               <span>{{item['候選人組合'][1]}}</span>
-              <mat-icon *ngIf="county['當選政黨'] === item['黨籍']" svgIcon="check_circle"></mat-icon>
+              <mat-icon *ngIf="townOrCounty['當選政黨'] === item['黨籍']" svgIcon="check_circle"></mat-icon>
 
             </span>
 
@@ -36,18 +39,18 @@
 
   <!-- 右半邊 -->
   <div class="widget">
-    <div *ngIf="county" class="container-2" [class.mobile]="isMobile">
+    <div *ngIf="townOrCounty" class="container-2" [class.mobile]="isMobile">
       <div echarts class="chart" [options]="basicPieOptions" [initOpts]="{ renderer: 'svg' }" [loading]="isLoading"
         (chartInit)="onChartInit($event)" [class.mobile]="isMobile"></div>
       <div class="container-2-2">
         <div class="content-box-2">
           <span class="label">{{'投票率'}}</span>
-          <span class="value">{{ county['投票率'] | number: '.2-2' }}%</span>
+          <span class="value">{{ townOrCounty['投票率'] | number: '.2-2' }}%</span>
         </div>
 
         <div *ngFor="let label of ['投票數', '有效票數','無效票數']" class="content-box-2">
           <span class="label">{{label}}</span>
-          <span class="value">{{ $any(county)[label] | number }}</span>
+          <span class="value">{{ $any(townOrCounty)[label] | number }}</span>
         </div>
       </div>
     </div>

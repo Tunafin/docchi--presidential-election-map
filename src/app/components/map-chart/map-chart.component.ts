@@ -7,7 +7,7 @@ import { ECharts, EChartsOption, SeriesOption, registerMap } from 'echarts';
 import { Subject, timer, zip } from 'rxjs';
 import { maxBy } from 'lodash';
 
-import { CountyModel } from '../../models/county.model';
+import { CountyModel, TownModel } from '../../models/county.model';
 import { PARTY_COLOR_LIST } from '../../pages/dashboard/dashboard.page.component';
 import { countyCenterMap, defaultCenter } from './county-center-map';
 
@@ -28,8 +28,9 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() year?: number;
 
+  @Input() towns: TownModel[] | null = null;
   @Input() counties?: CountyModel[];
-  @Input() selectedCounty?: CountyModel;
+  @Input() selectedCounty: CountyModel | null = null;
 
   @Output() countyClick = new EventEmitter<string>();
 

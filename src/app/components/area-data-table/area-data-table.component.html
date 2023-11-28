@@ -1,4 +1,9 @@
-<h3 class="g-h5">各縣市投票總覽</h3>
+<h3 class="g-h5">
+  各縣市投票總覽
+  <ng-container *ngIf="selectedCountyTowns">
+    / {{selectedCountyTowns[0]['行政區別']}}
+  </ng-container>
+</h3>
 
 <table *ngIf="dataSource" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 

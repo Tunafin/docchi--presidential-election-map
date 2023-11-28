@@ -10,7 +10,7 @@ import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 import { Subject, takeUntil } from 'rxjs';
 import { sumBy } from 'lodash';
 
-import { CountyModel } from '../../models/county.model';
+import { CountyModel, TownModel } from '../../models/county.model';
 import { PARTY_AVATOR_LIST, PARTY_COLOR_LIST } from '../../pages/dashboard/dashboard.page.component';
 
 @Component({
@@ -28,7 +28,15 @@ import { PARTY_AVATOR_LIST, PARTY_COLOR_LIST } from '../../pages/dashboard/dashb
 })
 export class CurrentDataChartComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() county?: CountyModel;
+  @Input() townOrCounty: TownModel | CountyModel | null = null;
+
+  get townName() {
+    const tempTownName =(this.townOrCounty as TownModel)['鄉(鎮、市、區)別'];
+    if(tempTownName && tempTownName !== '全部') {
+      return tempTownName;
+    }
+    return null;
+  }
 
   readonly basicPieOptions: EChartsOption;
 
@@ -64,9 +72,9 @@ export class CurrentDataChartComponent implements OnInit, OnChanges, OnDestroy {
           let proportion = '??';
           let text = `${params.marker} ${params.name}<br/>`;
 
-          if (this.county) {
+          if (this.townOrCounty) {
             if (!params.name.startsWith('未投票')) {
-              text += '得票率:' + formatNumber(params.data.value / sumBy(this.county['候選人資料列表'], d => d['票數']) * 100, 'en', '.2-2') + '% <br>';
+              text += '得票率:' + formatNumber(params.data.value / sumBy(this.townOrCounty['候選人資料列表'], d => d['票數']) * 100, 'en', '.2-2') + '% <br>';
             }
             // text += formatNumber(params.data.value / this.county['選舉人數'] * 100, 'en', '.2-2') + '% (所有占比)<br>';
           }
@@ -98,8 +106,8 @@ export class CurrentDataChartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   setSeries() {
-    if (!this.isLoading && this.chartInstance && this.county) {
-      const seriesData: any[] = this.county['候選人資料列表'].map(d => ({
+    if (!this.isLoading && this.chartInstance && this.townOrCounty) {
+      const seriesData: any[] = this.townOrCounty['候選人資料列表'].map(d => ({
         name: d['黨籍'],
         value: d['票數'],
         itemStyle: {
@@ -109,7 +117,7 @@ export class CurrentDataChartComponent implements OnInit, OnChanges, OnDestroy {
       }));
       seriesData.push({
         name: '未投票 & 無效票',
-        value: this.county['選舉人數'] - sumBy(this.county['候選人資料列表'], d => d['票數']),
+        value: this.townOrCounty['選舉人數'] - sumBy(this.townOrCounty['候選人資料列表'], d => d['票數']),
         itemStyle: {
           color: '#000',
           opacity: 0.035

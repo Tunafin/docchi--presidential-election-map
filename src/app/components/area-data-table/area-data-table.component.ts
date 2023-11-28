@@ -7,8 +7,9 @@ import { MatTableModule } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { sumBy } from 'lodash';
 
-import { CountyModel } from '../../models/county.model';
+import { CountyModel, TownModel } from '../../models/county.model';
 import { PARTY_AVATOR_LIST } from '../../pages/dashboard/dashboard.page.component';
+import { RouterModule } from '@angular/router';
 
 interface TableElement {
   '地區': string,
@@ -24,6 +25,7 @@ interface TableElement {
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatTableModule
   ],
   templateUrl: './area-data-table.component.html',
@@ -36,6 +38,7 @@ export class AreaDataTableComponent implements OnInit, OnChanges, OnDestroy {
   dataSource?: TableElement[];
 
   @Input() counties?: CountyModel[];
+  @Input() selectedCountyTowns: TownModel[] | null = null;
 
   readonly PARTY_AVATOR_LIST = PARTY_AVATOR_LIST;
 
@@ -63,20 +66,21 @@ export class AreaDataTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   setDataSource() {
-    this.dataSource = this.counties?.map(county => {
-      const elected = county['候選人資料列表'].find(d => d['黨籍'] == county['當選政黨'])!;
-      const sum = sumBy(county['候選人資料列表'], d => d['票數']);
+    const data = this.selectedCountyTowns ?? this.counties;
+    this.dataSource = data?.map(item => {
+      const elected = item['候選人資料列表'].find(d => d['黨籍'] == item['當選政黨'])!;
+      const sum = sumBy(item['候選人資料列表'], d => d['票數']);
 
       const element: TableElement = {
-        '地區': county['行政區別'],
+        '地區': this.selectedCountyTowns ? (item as TownModel)['鄉(鎮、市、區)別'] : item['行政區別'],
         '得票率': elected['票數'] / sum * 100,
         '最高票政黨': elected['黨籍'],
         '最高票候選人': elected['候選人組合'][0],
-        '投票數': county['投票數'],
-        '投票率': county['投票率']
+        '投票數': item['投票數'],
+        '投票率': item['投票率']
       }
 
       return element;
-    })
+    });
   }
 }
