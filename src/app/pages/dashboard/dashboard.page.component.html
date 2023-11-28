@@ -1,9 +1,8 @@
 <div class="fixed">
   <div class="navbar" [class.mobile]="isMobile">
-    <div class="title-with-logo" (click)="backToStartPage()">
+    <div class="title-area" (click)="backToStartPage()">
       <img src="assets/images/logo.svg" alt="logo" [width]="isMobile ? 36 : 52">
-
-      <h1 class="title-text" [class.mobile]="isMobile">台灣歷年總統 都幾?</h1>
+      <img src="assets/images/title.svg" alt="title" [width]="isMobile ? 180 : 255">
     </div>
 
     <span *ngIf="isMobile" style="flex: auto"></span>

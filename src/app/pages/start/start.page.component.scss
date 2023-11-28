@@ -14,21 +14,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .title-text {
-    font-family: Mantou Sans, sans-serif;
-    font-size: 59px;
-    line-height: 85px;
-    font-weight: 400;
-    letter-spacing: 0em;
-
-    margin: 0;
-
-    &.mobile {
-      font-size: 32px;
-      line-height: 46px;
-    }
+    gap: 16px;
   }
 }
 

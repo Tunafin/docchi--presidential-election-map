@@ -21,8 +21,9 @@ $minScreenWidth: 375px;
   }
 }
 
-.title-with-logo {
+.title-area {
   display: flex;
+  gap: 8px;
   cursor: pointer;
 }
 
@@ -50,21 +51,6 @@ $minScreenWidth: 375px;
   left: 0;
   right: 0;
   z-index: 100;
-}
-
-.title-text {
-  font-family: Mantou Sans, sans-serif;
-  font-size: 28px;
-  line-height: 40px;
-  font-weight: 400;
-  letter-spacing: 0em;
-
-  margin-left: 8px;
-
-  &.mobile {
-    font-size: 20px;
-    line-height: 28px;
-  }
 }
 
 .select-year-label {
