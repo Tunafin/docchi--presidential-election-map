@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, OnDestroy } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +23,10 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class StartPageComponent implements OnDestroy {
 
+  @HostBinding('class.mobile')
   isMobile = false;
+
+   someField: boolean = false;
 
   readonly yearDisabledList = [1996, 2000, 2004, 2008];
   readonly yearList = [2012, 2016, 2020];

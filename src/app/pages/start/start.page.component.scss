@@ -8,7 +8,11 @@
   box-sizing: border-box;
   height: 100vh;
   min-width: 375px;
-  min-height: 812px;
+  min-height: max(100vh, 667px);
+
+  &.mobile {
+    padding-top: 48px;
+  }
 
   .title-area {
     display: flex;
@@ -66,6 +70,27 @@
       cursor: pointer;
       background-color: lighten(#D4009B, 30%);
       transition: background-color 0.3s ease;
+    }
+  }
+}
+
+.bottom-area {
+  width: 100vw;
+  min-width: 350px;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: space-around;
+
+  img {
+    width: 280px;
+    height: 280px;
+    margin-bottom: -20px;
+
+    &.mobile {
+      width: 100px;
+      height: 100px;
+      margin-bottom: -10px;
     }
   }
 }
