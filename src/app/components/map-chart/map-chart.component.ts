@@ -44,6 +44,9 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
   isLoading = true;
   showLoading = true;
 
+  countySource: any;
+  townSource: any;
+
   private readonly _destroyed = new Subject<void>();
 
   constructor(
@@ -76,16 +79,13 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(([COUNTY_MOI, TOWN_MOI]) => {
         registerMap(COUNTY_MOI_MAP, COUNTY_MOI);
 
-        {
+        this.countySource = COUNTY_MOI;
+        this.townSource = TOWN_MOI;
+
           const groupObj = groupBy(TOWN_MOI.features, item => item.properties['COUNTYNAME']);
-
           keys(groupObj).forEach(key => {
-            const a = COUNTY_MOI.features.filter((item: any) => item.properties['COUNTYNAME'] !== key);
-            const b = TOWN_MOI.features.filter((item: any) => item.properties['COUNTYNAME'] === key);
-            registerMap(key, { type: 'FeatureCollection', features: [...a, ...b] });
+            this.checkAndRegisterCountyTownsMap(key);
           })
-        }
-
         this.isLoading = false;
         this.setCounties();
 
@@ -234,12 +234,16 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   moveToCounty() {
-    const { center, zoom } = countyCenterMap.get(this.selectedCounty!['行政區別']) ?? defaultCenter;
-
     let selectedCountyName: string | null = this.selectedCounty!['行政區別'];
     if (selectedCountyName === '全部') {
       selectedCountyName = null;
     }
+
+    if(selectedCountyName) {
+      this.checkAndRegisterCountyTownsMap(selectedCountyName);
+    }
+
+    const { center, zoom } = countyCenterMap.get(this.selectedCounty!['行政區別']) ?? defaultCenter;
 
     const list = [...this.counties!];
     if (selectedCountyName) {
@@ -255,6 +259,14 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
         zoom,
       }
     });
+  }
+
+  checkAndRegisterCountyTownsMap(countyName: string) {
+    if (countyName && !getMap(countyName)) {
+      const a = this.countySource.features.filter((item: any) => item.properties['COUNTYNAME'] !== countyName);
+      const b = this.townSource.features.filter((item: any) => item.properties['COUNTYNAME'] === countyName);
+      registerMap(countyName, { type: 'FeatureCollection', features: [...a, ...b] });
+    }
   }
 
   onChartInit(e: ECharts) {

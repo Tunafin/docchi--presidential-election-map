@@ -155,6 +155,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   onMapCountyClick(countyName: string) {
     const county = this.counties!.find(c => c['行政區別'] === countyName) ?? null;
+
     if(county) {
       this.selectCounty(county);
       return;
