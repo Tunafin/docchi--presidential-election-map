@@ -13,6 +13,7 @@ export interface CountyModel {
   已領未投票數: number;
   選舉人數: number;
   投票率: number;
+  '鄉(鎮、市、區)別': string;
 }
 
 export interface TownModel extends CountyModel {

@@ -1,3 +1,10 @@
 <div echarts class="chart" [class.show-loading]="showLoading" [options]="basicOptions" [initOpts]="{ renderer: 'svg' }"
   (chartInit)="onChartInit($event)" [loading]="!!counties && showLoading" (chartClick)="countyClick.emit($event.name)"
   [loadingOpts]="{color: '#d4009b'}"></div>
+
+  <div class="toolbox">
+    <button *ngIf="selectedCounty && selectedCounty['行政區別'] != '全部'" mat-raised-button (click)="countyClick.emit('全部')">
+      <mat-icon>arrow_back</mat-icon>
+      返回
+    </button>
+  </div>

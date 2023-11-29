@@ -155,7 +155,16 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   onMapCountyClick(countyName: string) {
     const county = this.counties!.find(c => c['行政區別'] === countyName) ?? null;
-    this.selectCounty(county);
+    if(county) {
+      this.selectCounty(county);
+      return;
+    }
+
+    const town = this.selectedCountyTowns?.find(c => c['鄉(鎮、市、區)別'] === countyName) ?? null;
+    if(town) {
+      this.selectTown(town);
+      return;
+    }
   }
 
   // 選取縣市

@@ -46,8 +46,8 @@
 </div>
 
 <div class="map-container" [class.mobile]="isMobile">
-  <app-map-chart [towns]="selectedCountyTowns" [counties]="counties" [selectedCounty]="selectedCounty" [year]="selectedYear"
-    (countyClick)="onMapCountyClick($event)"></app-map-chart>
+  <app-map-chart [towns]="selectedCountyTowns" [counties]="counties" [selectedCounty]="selectedCounty"
+    [year]="selectedYear" (countyClick)="onMapCountyClick($event)"></app-map-chart>
 </div>
 
 <div class="main-container" [class.mobile]="isMobile">
