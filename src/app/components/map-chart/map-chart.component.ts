@@ -201,6 +201,7 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
     if (this.year === 2012) {
       basicSeriesOption.nameMap = {
         '桃園市': '桃園縣',
+        '頭份市': '頭份鎮'
       };
     }
 

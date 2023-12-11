@@ -9,8 +9,8 @@
 
     <span *ngIf="!isMobile" class="g-h6 select-year-label">選擇年份</span>
 
-    <div class="select-wrapper year" [class.mobile]="isMobile" (click)="onSelectWrapperClick(yearSelect)">
-      <mat-select #yearSelect [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="isMobile"
+    <div class="select-wrapper year" [class.mobile]="isMobile">
+      <mat-select [(ngModel)]="selectedYear" [hideSingleSelectionIndicator]="true"
         (ngModelChange)="onSelectedYearChange($event)">
         <mat-option *ngFor="let year of yearList" [value]="year">
           {{year}}
@@ -18,31 +18,39 @@
       </mat-select>
     </div>
 
-    <div *ngIf="!isMobile" class="select-wrapper county" [class.mobile]="isMobile"
-      (click)="onSelectWrapperClick(countySelect)">
-      <mat-select #countySelect [(ngModel)]="selectedCounty" [hideSingleSelectionIndicator]="isMobile"
-        (ngModelChange)="onSelectedCountyChange($event)">
-        <mat-option *ngFor="let county of counties" [value]="county">
-          {{county['行政區別']}}
-        </mat-option>
-      </mat-select>
-    </div>
+    <ng-container *ngIf="!isMobile">
+      <ng-container *ngTemplateOutlet="countyAndTown"></ng-container>
 
-    <span *ngIf="!isMobile" style="flex: auto"></span>
+      <span style="flex: auto"></span>
 
-    <app-share-toolbox *ngIf="!isMobile"></app-share-toolbox>
+      <app-share-toolbox></app-share-toolbox>
+    </ng-container>
   </div>
 
   <div *ngIf="isMobile" class="navbar mobile">
-    <div class="select-wrapper county mobile" (click)="onSelectWrapperClick(countySelect)">
-      <mat-select #countySelect [(ngModel)]="selectedCounty" [hideSingleSelectionIndicator]="isMobile"
+    <ng-container *ngTemplateOutlet="countyAndTown"></ng-container>
+  </div>
+
+  <ng-template #countyAndTown>
+    <div class="select-wrapper county-and-town" [class.mobile]="isMobile">
+      <mat-select [(ngModel)]="selectedCounty" [hideSingleSelectionIndicator]="true"
         (ngModelChange)="onSelectedCountyChange($event)">
         <mat-option *ngFor="let county of counties" [value]="county">
           {{county['行政區別']}}
         </mat-option>
       </mat-select>
+
+      <mat-divider [vertical]="true" [inset]="true" class="divider"></mat-divider>
+
+      <mat-select [(ngModel)]="selectedTown" [hideSingleSelectionIndicator]="true"
+        [placeholder]="(selectedCounty && selectedCounty['行政區別'] !== '全部') ? '全部' : '-'"
+        (ngModelChange)="onSelectedTownChange($event)">
+        <mat-option *ngFor="let town of selectedCountyTowns" [value]="town">
+          {{town['鄉(鎮、市、區)別']}}
+        </mat-option>
+      </mat-select>
     </div>
-  </div>
+  </ng-template>
 </div>
 
 <div class="map-container" [class.mobile]="isMobile">

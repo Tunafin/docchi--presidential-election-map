@@ -69,22 +69,24 @@ $minScreenWidth: 375px;
 .select-wrapper {
   height: 40px;
   border-radius: 500px;
-
-  &.year {
-    width: 120px;
-  }
-
-  &.county {
-    width: 200px;
-    margin-left: 8px;
-  }
-
-  background-color: #E9ECEF;
-  cursor: pointer;
-
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  &.year {
+    width: 100px;
+  }
+
+  &.county-and-town {
+    width: 250px;
+    margin-left: 8px;
+
+  }
+
+  background-color: #E9ECEF;
+
 
   &.mobile {
     height: 27px;
@@ -93,13 +95,14 @@ $minScreenWidth: 375px;
       width: 90px;
     }
 
-    &.county {
-      width: 100%;
+    &.county-and-town {
+      flex: auto;
     }
   }
 
-  mat-select {
-    width: calc(100% - 24px);
+  .divider {
+    margin: 0 12px;
+    height: 60%;
   }
 }
 

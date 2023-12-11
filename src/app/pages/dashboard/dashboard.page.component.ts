@@ -10,8 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { Subject, takeUntil, zip } from 'rxjs';
 
@@ -49,6 +50,7 @@ export const ALL = '全部';
     MatIconModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatDividerModule,
 
     ShareToolboxComponent,
     MapChartComponent,
@@ -137,12 +139,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     })
   }
 
-  onSelectWrapperClick(select: MatSelect) {
-    if (!select.panelOpen) {
-      select.open();
-    }
-  }
-
   onSelectedYearChange(year: number) {
     this.router.navigate(['..', year], { relativeTo: this.route, replaceUrl: true });
     this.counties = this.yearCountiesPairMap.get(this.selectedYear)!;
@@ -153,16 +149,20 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     this.selectCounty(county);
   }
 
+  onSelectedTownChange(town: TownModel) {
+    this.selectTown(town);
+  }
+
   onMapCountyClick(countyName: string) {
     const county = this.counties!.find(c => c['行政區別'] === countyName) ?? null;
 
-    if(county) {
+    if (county) {
       this.selectCounty(county);
       return;
     }
 
     const town = this.selectedCountyTowns?.find(c => c['鄉(鎮、市、區)別'] === countyName) ?? null;
-    if(town) {
+    if (town) {
       this.selectTown(town);
       return;
     }
