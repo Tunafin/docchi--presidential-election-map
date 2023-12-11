@@ -50,18 +50,18 @@ src
 │  │          
 │  ├─models                  // 存放資料來源的對應模型
 │  │      
-│  └─pages                   // 頁面
-│      ├─dashboard
-│      └─start
-│              
+│  ├─pages                   // 頁面
+│  │  ├─dashboard
+│  │  └─start
+│  │          
+│  └─services                // 存放相關的服務元件
+│          
 └─assets
     │
     ├─data                   // 資料來源
     │      
     └─images                 // 圖片
         └─persons
-                
-
 ```
 
 ## 資料參考來源
