@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "baseHref": "/docchi--presidential-election-map/",
             "outputPath": "dist/docchi--presidential-election-map",
             "index": "src/index.html",
             "browser": "src/main.ts",
