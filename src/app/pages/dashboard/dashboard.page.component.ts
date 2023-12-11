@@ -34,7 +34,7 @@ PARTY_AVATOR_LIST.set('民主進步黨', 'assets/images/avatar_green.png');
 PARTY_AVATOR_LIST.set('親民黨', 'assets/images/avatar_orange.png');
 PARTY_AVATOR_LIST.set('無黨籍及未經政黨推薦', 'assets/images/avatar_orange.png');
 
-const ALL = '全部';
+export const ALL = '全部';
 
 @Component({
   selector: 'app-dashboard.page',

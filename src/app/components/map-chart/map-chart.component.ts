@@ -10,7 +10,7 @@ import { Subject, timer, zip } from 'rxjs';
 import { groupBy, keys, maxBy } from 'lodash';
 
 import { CountyModel, TownModel } from '../../models/county.model';
-import { PARTY_COLOR_LIST } from '../../pages/dashboard/dashboard.page.component';
+import { ALL, PARTY_COLOR_LIST } from '../../pages/dashboard/dashboard.page.component';
 import { countyCenterMap, defaultCenter } from './county-center-map';
 
 const COUNTY_MOI_MAP = 'COUNTY_MOI_MAP';
@@ -82,10 +82,10 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
         this.countySource = COUNTY_MOI;
         this.townSource = TOWN_MOI;
 
-          const groupObj = groupBy(TOWN_MOI.features, item => item.properties['COUNTYNAME']);
-          keys(groupObj).forEach(key => {
-            this.checkAndRegisterCountyTownsMap(key);
-          })
+        const groupObj = groupBy(TOWN_MOI.features, item => item.properties['COUNTYNAME']);
+        keys(groupObj).forEach(key => {
+          this.checkAndRegisterCountyTownsMap(key);
+        })
         this.isLoading = false;
         this.setCounties();
 
@@ -104,7 +104,7 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
     const partyList = list[0]['候選人資料列表'].map(d => d['黨籍']);
 
     return list.map(county => {
-      const isCountyLevel = !county['鄉(鎮、市、區)別'] || county['鄉(鎮、市、區)別'] === '全部';
+      const isCountyLevel = !county['鄉(鎮、市、區)別'] || county['鄉(鎮、市、區)別'] === ALL;
 
       const maxParty = maxBy(county['候選人資料列表'], d => d.票數)!['黨籍']; // 該地區最高票
       const data: any = {
@@ -135,18 +135,22 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
       };
 
       // 針對部分縣市作微調
-      {
-        const countyName = county['行政區別'];
-        if (countyName === '嘉義市' || countyName === '新竹市' || countyName === '臺北市') {
-          data.label = {
-            show: false
-          }
+      const countyName = county['行政區別'];
+      const townName = county['鄉(鎮、市、區)別'];
+      if (countyName === '嘉義市' || countyName === '新竹市' || countyName === '臺北市') {
+        data.label = {
+          show: false
         }
-        if (countyName === '基隆市') {
-          data.label = {
-            offset: [16, -15]
-          }
+      }
+      if (countyName === '基隆市') {
+        data.label = {
+          offset: [16, -15],
+          show: townName === ALL
         }
+      }
+
+      if (townName === ALL) {
+
         if (countyName === '新北市') {
           data.label = {
             offset: [8, 18]
@@ -235,11 +239,11 @@ export class MapChartComponent implements OnInit, OnChanges, OnDestroy {
 
   moveToCounty() {
     let selectedCountyName: string | null = this.selectedCounty!['行政區別'];
-    if (selectedCountyName === '全部') {
+    if (selectedCountyName === ALL) {
       selectedCountyName = null;
     }
 
-    if(selectedCountyName) {
+    if (selectedCountyName) {
       this.checkAndRegisterCountyTownsMap(selectedCountyName);
     }
 
