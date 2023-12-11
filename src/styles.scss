@@ -28,3 +28,9 @@ body {
   line-height: 24px;
   margin: 0;
 }
+
+.transparent-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: initial;
+  border-radius: initial;
+  box-shadow: initial;
+}

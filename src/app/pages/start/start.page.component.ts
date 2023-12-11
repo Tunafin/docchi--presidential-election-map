@@ -8,6 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Subject, takeUntil } from 'rxjs';
 
+import { LoadingService } from '../../services/loading.service';
+
 @Component({
   selector: 'app-start.page',
   standalone: true,
@@ -26,7 +28,7 @@ export class StartPageComponent implements OnDestroy {
   @HostBinding('class.mobile')
   isMobile = false;
 
-   someField: boolean = false;
+  someField: boolean = false;
 
   readonly yearDisabledList = [1996, 2000, 2004, 2008];
   readonly yearList = [2012, 2016, 2020];
@@ -37,6 +39,7 @@ export class StartPageComponent implements OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private breakpointObserver: BreakpointObserver,
+    private loadingService: LoadingService,
   ) {
     this.breakpointObserver
       .observe([
@@ -55,6 +58,11 @@ export class StartPageComponent implements OnDestroy {
   }
 
   onYearChipClick(year: number) {
-    this.router.navigate(['dashboard', year]);
+    // 儀錶板頁面的組件已有讀取動畫，故此處先不顯示全螢幕 loading 畫面
+    // this.loadingService.openLoading();
+
+      this.router.navigate(['dashboard', year]).then(() => {
+        this.loadingService.closeLoading();
+      })
   }
 }
