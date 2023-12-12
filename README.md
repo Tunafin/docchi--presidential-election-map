@@ -1,6 +1,6 @@
 # [THE F2E 2023] Mission 2 - 總統即時開票全台地圖
 
-![docchi](https://firebasestorage.googleapis.com/v0/b/ithome2023-82cec.appspot.com/o/github%2Fdocchi.png?alt=media&token=74786611-0450-483a-ae92-8b601e7ea761)
+![preview](https://firebasestorage.googleapis.com/v0/b/ithome2023-82cec.appspot.com/o/github%2Fdocchi.png?alt=media&token=715e5037-10a3-4548-b74c-d7ac6f61cad2)
 
 ## 專案介紹
 
