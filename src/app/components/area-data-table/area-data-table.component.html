@@ -1,7 +1,10 @@
 <h3 class="g-h5">
-  各縣市投票總覽
+  各縣市投票總覽 /
   <ng-container *ngIf="selectedCountyTowns">
-    / {{selectedCountyTowns[0]['行政區別']}}
+    {{selectedCountyTowns[0]['行政區別']}}
+  </ng-container>
+  <ng-container *ngIf="!selectedCountyTowns">
+    全部
   </ng-container>
 </h3>
 

@@ -170,11 +170,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   // 選取縣市
   selectCounty(county: CountyModel | null) {
-    if (this.selectedCounty !== county) {
-      this.selectedCounty = county;
       this.selectedTown = null;
+      this.selectedCounty = county;
       this.cdr.detectChanges();
-    }
   }
 
   // 選取鄉鎮縣市
