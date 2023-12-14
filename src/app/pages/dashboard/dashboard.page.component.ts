@@ -140,7 +140,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   onSelectedYearChange(year: number) {
-    this.router.navigate(['..', year], { relativeTo: this.route, replaceUrl: true });
+    this.router.navigate([year], { replaceUrl: true });
     this.counties = this.yearCountiesPairMap.get(this.selectedYear)!;
     this.selectCounty(this.counties[0]);
   }
@@ -184,6 +184,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
   }
 
   backToStartPage() {
-    this.router.navigate(['/']);
+    this.router.navigate(['']);
   }
 }

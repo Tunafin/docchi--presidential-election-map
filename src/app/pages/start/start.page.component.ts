@@ -61,7 +61,7 @@ export class StartPageComponent implements OnDestroy {
     // 儀錶板頁面的組件已有讀取動畫，故此處先不顯示全螢幕 loading 畫面
     // this.loadingService.openLoading();
 
-      this.router.navigate(['dashboard', year]).then(() => {
+      this.router.navigate([year]).then(() => {
         this.loadingService.closeLoading();
       })
   }
